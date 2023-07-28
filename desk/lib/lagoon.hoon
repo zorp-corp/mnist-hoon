@@ -1,4 +1,4 @@
-/+  sa=saloon
+/+  sa=saloon, *twoc
 ::                                                    ::
 ::::                    ++la                          ::  (2v) vector/matrix ops
 |%
@@ -55,10 +55,9 @@
   ++  get-item  ::  extract item at index .dex
     |=  [=ray dex=(list @)]
     ^-  @ux
-    =/  len  (^sub (roll shape.meta.ray ^mul) 1)
     %^    cut
         bloq.meta.ray 
-      [(^sub len (get-bloq-offset -.ray dex)) 1] 
+      [(get-bloq-offset -.ray dex) 1] 
     data.ray
   ::
   ++  set-item  ::  set item at index .dex to .val
@@ -68,7 +67,7 @@
     :-  -.ray
     %^    sew 
         bloq.meta.ray
-      [(^sub len (get-bloq-offset -.ray dex)) 1 val] 
+      [(get-bloq-offset -.ray dex) 1 val] 
     data.ray
   ::
   ++  get-bloq-offset  ::  get bloq offset of n-dimensional index
@@ -123,16 +122,17 @@
   ++  ravel
     |=  a=ray
     ^-  (list @)
-    +:(flop (rip bloq.meta.a data.a))
+    (snip (rip bloq.meta.a data.a))
   ::
   ++  en-ray    :: baum to ray
   |=  =baum
   ^-  ray
-  =/  a=ray  [meta.baum `@ux`1]
+  =/  a=ray  [meta.baum `@ux`0]
   =/  i  0
   =/  n  (roll shape.meta.a ^mul)
   |-
   ?:  =(i n)
+    =.  data.a  (^add (lsh [bloq.meta.a n] 1) (swp bloq.meta.a data.a))
     a
   %=    $
       i  +(i)
@@ -180,7 +180,7 @@
     ~_  leaf+"lagoon-fail"
     =<  +
     %^    spin
-        (gulf 0 (^sub n 1))
+        (gulf 0 (dec n))
       ^-  ray  (zeros [~[n n] bloq kind])
     |=  [i=@ r=ray]
     [i (set-item r ~[i i] 1)]
@@ -335,19 +335,11 @@
           ==
         ==
       ==
-  ::
+::
   ++  abs
     |=  a=ray
     ^-  ray
-    %-  spac
-    :-  meta.a
-    =/  ali  (ravel a)
-    %+  rep  bloq.meta.a
-    =|  res=(list @)
-    |-  ^+  res
-    ?@  ali  res
-    =/  abs  ((trans-scalar bloq.meta:a kind.meta:a %abs) i.ali)
-    $(ali t.ali, res [abs res])
+    (el-wise-op a (trans-scalar bloq.meta:a kind.meta:a %abs))
 ::
   ++  add-scalar
     |=  [a=ray n=@]
@@ -423,7 +415,8 @@
       ::
         %signed  
       ?+  fun  !!
-        %add  ~(sum fe bloq)
+        %add  ~(add twoc bloq)
+        %mul  ~(mul twoc bloq)
       ==
       ::
         %float
@@ -510,11 +503,9 @@
     :-  meta.a
     =/  ali  (ravel a)
     %+  rep  bloq.meta.a
-    =|  res=(list @)
-    |-  ^+  res
-    ?@  ali  res
-    =/  ans  (fun i.ali)
-    $(ali t.ali, res [(fun i.ali) res])
+    %+  turn
+      ali
+    |=(e=@ (fun e))
  :: 
   ++  bin-op
     |=  [a=ray b=ray op=$-([@ @] @)]
@@ -524,12 +515,12 @@
     :-  meta.a
     =/  ali  (ravel a)
     =/  bob  (ravel b)
+    =/  len  (dec (^min (lent ali) (lent bob)))
     %+  rep  bloq.meta.a
-    =|  res=(list @)
-    |-  ^+  res
-    ?@  ali  res
-    ?@  bob  res
-    $(ali t.ali, bob t.bob, res [(op i.ali i.bob) res])
+    %+  turn
+      (gulf 0 len)
+    |=  i=@
+    (op (snag i ali) (snag i bob))
     ::
         ::  TODO signed integers -- add new 2's complement kind?
 --
