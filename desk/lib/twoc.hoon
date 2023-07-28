@@ -30,14 +30,14 @@
   ++  mul
   :: https://stackoverflow.com/questions/20793701/how-to-do-two-complement-multiplication-and-division-of-integers
     |=  [a=@ b=@]
-    =/  ae  (rep 0 ~[a (extend a)])
-    =/  be  (rep 0 ~[b (extend b)])
+    =/  ae  (rep bloq ~[a (extend a)])
+    =/  be  (rep bloq ~[b (extend b)])
     =/  c  (cut 0 [0 (^mul 2 len)] (^mul ae be))
     ?:  (lte (xeb c) len)
       c
-      ?:  !=((dec (bex len)) (cut 0 [len len] c))
-        ~|('signed int overflow' !!)
-      (cut 0 [0 len] c)
+    ?:  !=((dec (bex len)) (cut 0 [len len] c))
+      ~|('signed int overflow' !!)
+    (cut 0 [0 len] c)
   ::
   ++  extend
     |=  a=@
@@ -45,5 +45,6 @@
     ?:  =((msb a) 0)
       0
     (dec (bex len))
+  ::
   --
 --
