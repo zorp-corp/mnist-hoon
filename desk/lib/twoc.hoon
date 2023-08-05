@@ -15,8 +15,7 @@
     =/  res  (^add a b)
     ?.  (gth (xeb res) len)
       res 
-    =/  rez=@
-    (rep 0 (snip (rip [0 1] res)))
+    =/  rez=@  (rep 0 (snip (rip [0 1] res)))
     ?:  !(overflow a b rez)
       rez
     ~|('signed int overflow' !!)
