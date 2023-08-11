@@ -10,6 +10,26 @@
       0
     1
   ::
+  ::
+  :: https://gist.github.com/mfuerstenau/ba870a29e16536fdbaba#file-zigzag-encoding-readme-L53
+  ::  (i >>> 1) ^ (~(i & 1) + 1)
+  ::
+  ::  Test cases
+  :: > (~(s-to-twoc twoc:twoc 2) --2)
+  ::   2
+  :: > (~(s-to-twoc twoc:twoc 2) --1)
+  ::   1
+  :: > (~(s-to-twoc twoc:twoc 2) --8)
+  ::  /lib/twoc/hoon:<[19 5].[22 45]>
+  :: > (~(s-to-twoc twoc:twoc 3) -14)
+  ::  242
+  ++  s-to-twoc
+    |=  a=@s
+    ?>  (lte `@`a (dec ~(out fe bloq)))
+    %+  mix
+      (rsh 0 a) 
+    (~(sum fe bloq) (not 0 len (dis a 1)) 1)
+  :: 
   ++  add
     |=  [a=@ b=@]
     =/  res  (^add a b)

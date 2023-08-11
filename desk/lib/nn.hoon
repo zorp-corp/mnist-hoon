@@ -14,6 +14,18 @@
   ^-  ray:la
   (add:la (matmul-2d:la w x) b)
 ::
+::  +q-linear: Quantized linear layer
+::
+::  Note that s = (s_in*s_weight) / s_out
+::  the s_* values should be precomputed.
+::
+++  q-linear
+  |=  [w=ray:la b=ray:la s=@rs]
+  |=  x=ray:la
+  ^-  ray:la
+  ::  TODO: round back to int
+  (mul:la (add:la (matmul-2d:la w x) b) s)
+::
 ::  +relu: Operation: for each element x in `ray`, take max(0,x)
 ::  need to change for %signed
 ++  relu
