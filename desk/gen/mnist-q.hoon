@@ -4,56 +4,72 @@
 :-  %noun
 :: 
 |^
-=/  so_1=@rs  .0.04977201852272815
-=/  so-2=@rs  .0.20500931026428704
-=/  s-fc1=@rs  .0.0018833551819868915
-=/  s-fc2=@rs  .0.006395129706915908
-=/  s-x=@rs  (div:rs .1 .127)
 (test n)
+::
+::
+::  scale down by dividing and round
+::
 ++  round
   |=  [=bloq a=@rs]
-  ^-  @
-  (~(s-to-twoc twoc bloq) (toi:rs a))
+  =/  b  (toi:rs a)
+  ?@  b
+    ~|(round+a !!)
+  (~(s-to-twoc twoc bloq) (need b))
+::
 ::
 ++  test
   |=  n=@ud
   =/  net  model
   =/  x  (load-image n)
-  =/  pred  ~>  %bout  (argmax:la (apply:nn model x))
+  =/  res  ~>  %bout  (apply:nn model x) 
+  ~>  %slog.1^(to-tank:la res)
+  =/  pred   (argmax:la res)
   ~&  >  pred  pred
 ::
 ++  model 
+  =/  so-1=@rs  .0.0578187957523376
+  =/  so-2=@rs  .0.2039385517751138
+  =/  s-fc1=@rs  .0.0023238762157169854
+  =/  s-fc2=@rs  .0.006298254794023168
+  =/  s-x=@rs  (div:rs .1 .127)
+  =/  sl1=@rs  (div:rs (mul:rs s-fc1 s-x) so-1)
+  =/  sl2=@rs  (div:rs (mul:rs s-fc2 so-1) so-2)
   =/  w1
   %-  spac:la
   :-  [~[500 784] 5 %signed]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-weight-int/mnist)
+  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-weight-int32/mnist)
   =/  w2 
   %-  spac:la
-  :-  [~[100 500] 5 %signed]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-weight-int/mnist)
+  :-  [~[10 500] 5 %signed]
+  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-weight-int32/mnist)
+  ::
   =/  b1  
   %-  spac:la
   :-  [~[500 1] 5 %signed]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-bias-int/mnist)
+  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-bias-int32/mnist)
+  ::
   =/  b2
   %-  spac:la
-  :-  [~[100 1] 5 %signed]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-bias-int/mnist)
-  ~[(linear:nn w1 b1) relu:nn (linear:nn w2 b2)]
+  :-  [~[10 1] 5 %signed]
+  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-bias-int32/mnist)
+  ~[(q-linear:nn w1 b1 sl1) relu-signed:nn (q-linear:nn w2 b2 sl2)]
 :: 
 ++  load-image
   |=  i=@
   ^-  ray:la
-  =/  dat  .^(@ %cx /(scot %p ship)/tensor/(scot %da now)/data/(scot %ud i)/mnist)
-  ::  convert this back to an integer by rounding
+  =/  dat  .^(@ %cx /(scot %p ship)/tensor/(scot %da now)/data/int/(scot %ud i)/mnist)
   %-  spac:la
   :-  [~[784 1] 5 %signed]
   %+  rep
     5
   %+  turn
-    (rip 3 dat)
+    (rip 5 dat)
   |=  e=@
-  (round 3 (div (sun:rs e) s-x))
+  ::
+  ::  Squeeze images in range [0, 127]
+  =/  b  (div e 2)
+  ::
+  ?:(=(b 128) (dec b) b)
 ::
 ++  load-labels
   ^-  (list @)

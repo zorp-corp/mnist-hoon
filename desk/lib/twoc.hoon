@@ -6,9 +6,10 @@
   ++  len  (bex bloq)
   ++  msb
     |=  a=@
-    ?:  (lth (xeb a) len)
+    ?:  (^lth (xeb a) len)
       0
     1
+  ++  ones  (dec len)
   ::
   ::
   :: https://gist.github.com/mfuerstenau/ba870a29e16536fdbaba#file-zigzag-encoding-readme-L53
@@ -25,15 +26,27 @@
   ::  242
   ++  s-to-twoc
     |=  a=@s
+    ^-  @
     ?>  (lte `@`a (dec ~(out fe bloq)))
     %+  mix
       (rsh 0 a) 
     (~(sum fe bloq) (not 0 len (dis a 1)) 1)
-  :: 
+  ::
+  :: 1001 is -7 in int4
+  :: 1111 - 1001 = 0110  
+  :: 0110 + 0001 = 0111 (7)
+  ++  twoc-to-s
+    |=  a=@
+    ^-  @s
+    ?:  =(1 (msb a))
+      (new:si | +((sub (dec (bex len)) a)))
+    (new:si & a)
+  ::
+  ::
   ++  add
     |=  [a=@ b=@]
     =/  res  (^add a b)
-    ?.  (gth (xeb res) len)
+    ?.  (^gth (xeb res) len)
       res 
     =/  rez=@  (rep 0 (snip (rip [0 1] res)))
     ?:  !(overflow a b rez)
@@ -65,5 +78,25 @@
       0
     (dec (bex len))
   ::
+  ::
+  ::  > (~(gth twoc:twoc 3) `@ub`0b1010.1111 `@ub`0b1010.1110)
+  ::    %.y
+  ::
+  ::  > (~(gth twoc:twoc 3) 256 126)
+  ::    %.n
+  ::
+  ++  gth
+    |=  [a=@ b=@]
+    ::
+    ::  different signs
+    ?:  =(1 (mix (msb a) (msb b)))
+      ::
+      ::  choose the one that's positive
+      =(0 (msb a))
+    ::
+    ::  same signs, use the default gth
+    (^gth a b)
+  ::
+  ++  lth  |=([a=@ b=@] !(gth a b))
   --
 --

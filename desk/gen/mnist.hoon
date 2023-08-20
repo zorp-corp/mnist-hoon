@@ -9,7 +9,8 @@
   |=  n=@ud
   =/  net  model
   =/  x  (load-image n)
-  =/  pred  ~>  %bout  (argmax:la (apply:nn model x))
+  =/  res  ~>  %bout  (apply:nn model x) 
+  =/  pred  ~>  %bout  (argmax:la res)
   ~&  >  pred  pred
 ::
 ++  model 
@@ -19,15 +20,15 @@
   .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-weight/mnist)
   =/  w2 
   %-  spac:la
-  :-  [~[100 500] 5 %float]
+  :-  [~[10 500] 5 %float]
   .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-weight/mnist)
-  =/  b1  
+  =/  b1 
   %-  spac:la
   :-  [~[500 1] 5 %float]
   .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-bias/mnist)
   =/  b2
   %-  spac:la
-  :-  [~[100 1] 5 %float]
+  :-  [~[10 1] 5 %float]
   .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-bias/mnist)
   ~[(linear:nn w1 b1) relu:nn (linear:nn w2 b2)]
 :: 

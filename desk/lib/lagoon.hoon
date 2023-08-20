@@ -43,14 +43,53 @@
     ~>  %slog.1^(to-tank a)
     ~
   ++  slog  |=(a=ray (^slog (to-tank a) ~))
+::
   ++  to-tank  ::  TODO nest dimensions
     |=  a=ray
     ^-  tank
-    :+  %rose  [" " "[" "]"]
-    %+  turn  (ravel a)
-    |=  i=@
-    ^-  tank
-    (sell [%atom kind.meta.a ~] i)
+    ::  1D vector case
+    ?:  =(1 (lent shape.meta.a))
+      =/  term  (get-term meta.a)
+      :+  %rose  [" " "[" "]"]
+      %+  turn  (ravel a)
+      |=  i=@
+      ^-  tank
+      [%leaf (scow term i)]
+    ?:  =(2 (lent shape.meta.a))
+      =/  =baum  (de-ray a)
+      =/  =term  (get-term meta.a)
+      ?@  data.baum  leaf+(scow term data.baum)
+      :+  %rose  [" " "[" "]"]
+      %+  turn  ;;((lest (lest @)) data.baum)
+      |=  b=(lest @)
+      ^-  tank
+      :+  %rose  [" " "[" "]"]
+      %+  turn  b
+      |=  c=@
+      =?  c  =(kind.meta.a %signed)
+        ::
+        ::  convert to @s for pretty printing
+        (~(twoc-to-s twoc bloq.meta.a) c)
+      [%leaf (scow term c)]
+    !!
+  ::
+  ++  get-term
+    |=  =meta
+    ?+    kind.meta  ~|(kind.meta !!)
+        %unsigned
+      %ud
+      ::
+        %signed
+      %sd
+      ::
+        %float
+      ?+    bloq.meta  ~|(bloq.meta !!)
+        %7  %rq
+        %6  %rd
+        %5  %rs
+        %4  %rh
+      ==
+    ==
   ::
   ++  get-item  ::  extract item at index .dex
     |=  [=ray dex=(list @)]
@@ -123,6 +162,52 @@
     |=  a=ray
     ^-  (list @)
     (snip (rip bloq.meta.a data.a))
+  ::
+  ::  +de-ray: ray to baum
+  ++  de-ray
+    |=  =ray
+    ^-  baum
+    |^
+    :-  meta.ray
+    ^-  ndray
+    ::
+    =,  meta.ray
+    ?:  =(1 (lent shape))
+      (snip (rip bloq data.ray))
+    ::
+    ::  collate rows
+    ?:  =(2 (lent shape))
+      =/  ncol  (snag 1 shape)
+      ::
+      ::  bits per row
+      =/  row-size  (^mul ncol (bex bloq))
+      =|  i=@
+      =|  res=(list (list @))
+      ::
+      ::  pointer to current row
+      =|  p-row=@
+      |-
+      ?:  =(i (snag 0 shape))
+        res
+      ::
+      ::  grab data for the row
+      ::  if all the values of a row are zero,
+      ::  materialize a row of zeros.
+      =/  d  (rip bloq (cut 0 [p-row row-size] data.ray))
+      =/  dat=(list @)
+        ?:  !=(0 d)
+          d
+        %+  turn
+          (gulf 0 (dec ncol))
+        |=(* 0)
+      %=  $
+        i      +(i)
+        p-row  (^add p-row row-size) 
+        res    (weld res ~[dat])
+      ==
+    ::  cut off end
+    !!
+  --
   ::
   ++  en-ray    :: baum to ray
   |=  =baum
@@ -410,13 +495,15 @@
         %div  |=([b=@ c=@] (~(sit fe bloq) (^div b c)))
         %mod  |=([b=@ c=@] (~(sit fe bloq) (^mod b c)))
         %gth  |=([b=@ c=@] (gth b c))
-        %lth  |=([b=@ c=@] (gth b c))
+        %lth  |=([b=@ c=@] (lth b c))
       ==
       ::
         %signed  
       ?+  fun  !!
         %add  ~(add twoc bloq)
         %mul  ~(mul twoc bloq)
+        %gth  ~(gth twoc bloq)
+        %lth  ~(lth twoc bloq)
       ==
       ::
         %float
