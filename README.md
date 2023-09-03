@@ -2,6 +2,8 @@
 
 Run a pretrained MNIST model from your urbit ship!
 
+![alt-text](https://github.com/zorp-corp/mnist-hoon/blob/master/pred.jpeg)
+
 ## Instructions
 1. Copy the contents of `desk` into a desk named `%mnist` on a fakezod.
 2. This repo comes preloaded with 4 MNIST images taken from the test set. 
