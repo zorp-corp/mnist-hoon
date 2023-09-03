@@ -60,6 +60,7 @@
     ==
   ::
   ++  mul
+  ::
   :: https://stackoverflow.com/questions/20793701/how-to-do-two-complement-multiplication-and-division-of-integers
     |=  [a=@ b=@]
     =/  ae  (rep bloq ~[a (extend a)])
@@ -70,6 +71,7 @@
     ?:  !=((dec (bex len)) (cut 0 [len len] c))
       ~|('signed int overflow' !!)
     (cut 0 [0 len] c)
+  ::
   ::
   ++  extend
     |=  a=@
@@ -88,13 +90,13 @@
   ++  gth
     |=  [a=@ b=@]
     ::
-    ::  different signs
+    ::  check for different signs
     ?:  =(1 (mix (msb a) (msb b)))
       ::
-      ::  choose the one that's positive
+      ::  if different, choose the one that is positive
       =(0 (msb a))
     ::
-    ::  same signs, use the default gth
+    ::  if signs same, use the default gth
     (^gth a b)
   ::
   ++  lth  |=([a=@ b=@] !(gth a b))

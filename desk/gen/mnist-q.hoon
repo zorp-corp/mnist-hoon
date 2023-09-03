@@ -1,4 +1,9 @@
 /+  nn, *lagoon
+::
+::
+::  mnist handwritten digit recognition 
+::  with int8 weights
+::
 :-  %say
 |=  [[now=@da eny=@uv [=ship =desk =case]] [n=@ud ~] ~]
 :-  %noun
@@ -24,7 +29,7 @@
   =/  res  ~>  %bout  (apply:nn model x) 
   ~>  %slog.1^(to-tank:la res)
   =/  pred   (argmax:la res)
-  ~&  >  pred  pred
+  ~&  >  pred  pred+pred
 ::
 ++  model 
   =/  so-1=@rs  .0.0578187957523376

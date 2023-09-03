@@ -1,8 +1,9 @@
 /+  *test
-/+  *lagoon
+/+  *nu-lagoon
 ::
 ::::
   ::
+!:
 ^|
 |_  $:  atol=_.1e-3          :: absolute tolerance for precision of operations
         rtol=_.1e-5          :: relative tolerance for precision of operations
@@ -145,4 +146,5 @@
     !>((add:la iota-test iota-test))
     !>(iota-res)
   ==
+::
 --

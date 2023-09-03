@@ -1,4 +1,8 @@
 /+  nn, *lagoon
+::
+::  mnist handwritten digit recognition 
+::  with float32 weights
+::
 :-  %say
 |=  [[now=@da eny=@uv [=ship =desk =case]] [n=@ud ~] ~]
 :-  %noun
@@ -11,7 +15,7 @@
   =/  x  (load-image n)
   =/  res  ~>  %bout  (apply:nn model x) 
   =/  pred  ~>  %bout  (argmax:la res)
-  ~&  >  pred  pred
+  ~&  >  pred  pred+pred
 ::
 ++  model 
   =/  w1

@@ -4,9 +4,15 @@
 !:
 |%
 ::
+::  +clip: Clips the range of the $ray elements result to be between max and min.
+::
+::    - Values greater than map will saturate at max. 
+::    - Values lesser than min will saturate at min.
+::  
 ++  clip
-  :: TODO infer max and min
-  |=  [[max=@ min=@] =ray:la]
+  |=  [[max=@s min=@s] =ray:la]
+  =/  max  (~(s-to-twoc twoc bloq.meta.ray) max)
+  =/  min  (~(s-to-twoc twoc bloq.meta.ray) min)
   %+  el-wise-op:la
     ray
   |=  a=@
@@ -20,8 +26,10 @@
 ++  scale
   |=  [=ray:la s=@rs]
   ^-  ray:la
-  ::%+  clip
-  ::  [129 127]
+  =/  max  (dec (bex bloq.meta.ray))
+  =/  min  (dec (bex +(bloq.meta.ray)))
+  %+  clip
+    [--127 -127]
   %+  el-wise-op:la
     ray
   |=  a=@
@@ -53,7 +61,8 @@
   (scale (add:la (matmul-2d:la w x) b) s)
 ::
 ::  +relu: Operation: for each element x in `ray`, take max(0,x)
-::  need to change for %signed
+::  use +relu-signed for %signed kind
+::
 ++  relu
   |=  a=ray:la
   ^+  a 
@@ -81,8 +90,6 @@
   |=  [layer=$-(ray:la ray:la) x=ray:la]
   ~&  >  'applying layer'
   =/  y  (layer x)
-  ::~>  %slog.1^(to-tank:la y)
-  ~&  >  y
   [layer y]
 ::
 --

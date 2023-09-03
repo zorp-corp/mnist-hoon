@@ -546,7 +546,6 @@
         ==
       ==
     ::
-        ::  TODO signed integers -- add new 2's complement kind?
     ==
   ::
   ++  trans-scalar
