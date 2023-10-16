@@ -5,6 +5,8 @@ Run a pretrained MNIST model from your urbit ship using ONNX weights!
 ![alt-text](https://github.com/zorp-corp/mnist-hoon/blob/master/pred.jpeg)
 
 ## Instructions
+NOTE: While writing this library, we discovered a bug in `+de:base64:mimes:html`, to run this demo you must apply the fix in this PR [here](https://github.com/urbit/urbit/pull/6826).
+
 1. Copy the contents of `desk` into a desk named `%mnist` on a fakezod.
 2. This repo comes preloaded with 9 MNIST images taken from the test set. The filename of each image serves as its label. 
 To run inference on the first image: `0.mnist` do:
@@ -21,7 +23,7 @@ was used after the first layer.  Models similar to this one have a reported erro
 [website](https://web.archive.org/web/20230201163719/https://yann.lecun.com/exdb/mnist/). We achieved an error rate of 2% for
 both quantized and unquantized models.
 
-The model was trained in Google Collab using pytorch. The script used to pretrain the model can be found in `urth/mnist.ipynb`. The notebook walks you through the process of pretraining the model, calculating scaling factors, quantizing the weights, and exporting the weights. The script I used to preprocess theMNIST images before copying them over to urbit is in `process-normalize.py`.
+The model was trained in Google Collab using pytorch. The script used to pretrain the model can be found in `urth/mnist.ipynb`. The notebook walks you through the process of pretraining the model, calculating scaling factors, quantizing the weights, and exporting the weights. The script I used to preprocess the MNIST images before copying them over to urbit is in `process-normalize.py`.
 
 Although inference is done in int8, the format of the array elements are float32 clipped to int8 range [-127, 127]. This is purely 
 for convenience. In real int8 inference, all of the array elements would be int8, while the bias would be int32. This 
