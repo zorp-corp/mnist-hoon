@@ -1,17 +1,7 @@
 /-  *onnx
 /+  *nu-lagoon
-::
 !:
 |%
-::
-::  +clip: Clips the range of the $ray elements result to be between max and min.
-::
-::    - Values greater than map will saturate at max. 
-::    - Values lesser than min will saturate at min.
-:: 
-::    (Currently only works for signed) 
-::
-::
 ++  pro  |:([a=`@s`--1 b=`@s`--1] (pro:si a b))
 ::
 ++  div

@@ -12,10 +12,10 @@ NOTE: While writing this library, we discovered a bug in `+de:base64:mimes:html`
 To run inference on the first image: `0.mnist` do:
 
 ```hoon
-+mnist!onnx /data/net-quant/json 0
++mnist!run-onnx /=mnist=/data/net-quant/json /=mnist=/data/0/mnist
 ```
 
-Where `/data/net-quant/json` is the path of the ONNX weight file. The generator should output `[%pred 0]`, making it's prediction for the first image the number `0`.
+Where `/=mnist=/data/net-quant/json` is the path of the ONNX weight file. The generator should output `[%pred 0]`, making its prediction for the first image the number `0`.
 
 ## Replication
 The model used was a two-layer fully connected neural network of dimensions (784, 500) and (500, 10). A RELU activation 

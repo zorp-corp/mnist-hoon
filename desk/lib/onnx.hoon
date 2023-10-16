@@ -1,16 +1,6 @@
 /-  *onnx
 /+  *nu-lagoon, nn=onnx-nn
-:-  %say
-|=  [[now=@da eny=@uv [=ship =desk =case]] [=path i=@ ~] ~]
-:-  %noun
-|^
-=/  x  (malt `(list [@t tensor])`~[[%input1 [%array (load-image i)]]])
-=/  output-map=(map @t tensor)  ((run-onnx preprocess-onnx) x)
-=/  out  (~(got by output-map) 'output')
-?>  ?=(%array -.out)
-~&  >  prediction+(argmax:la ray.out)
-~
-++  load-file  .^(json %cx (weld /(scot %p ship)/tensor/(scot %da now) path))
+|%
 ++  type-map
 |=  data-type=@
 ^-  [=kind:la bloq=@]
@@ -37,25 +27,9 @@
 ::  flop since lagoon is big endian
 (rep 5 (flop (rip 5 dat)))
 ::
-++  load-image
-  |=  i=@ud
-  ^-  ray:la
-  =/  img  .^(@ %cx /(scot %p ship)/tensor/(scot %da now)/data/normalized/(scot %ud i)/mnist)
-  =/  missing  (sub 784 (met 5 img))
-  %-  spac:la
-  :-  [~[784 1] 5 %float ~]
-  ::
-  ::  lsh to recover zeros lost by flop-rep
-  %+  lsh
-    [5 missing]
-  %+  rep
-    5
-  ::  flop since lagoon is big endian
-  (flop (rip 5 img))
-::
 ++  preprocess-onnx
+  |=  onnx=json
   ^-  [outputs=(list io) tensors=(map @t tensor) ops=(list op)]
-  =/  onnx=json  load-file
   ?>  ?=(%o -.onnx)
   =/  graph  (~(got by p.onnx) %graph)
   ?>  ?=(%o -.graph)

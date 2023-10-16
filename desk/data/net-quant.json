@@ -26,7 +26,46 @@
       },
       {
         "input": [
-          "input1"
+          "input1",
+          "/Constant_output_0"
+        ],
+        "output": [
+          "/Reshape_output_0"
+        ],
+        "name": "/Reshape",
+        "opType": "Reshape"
+      },
+      {
+        "output": [
+          "/Constant_1_output_0"
+        ],
+        "name": "/Constant_1",
+        "opType": "Constant",
+        "attribute": [
+          {
+            "name": "value",
+            "t": {
+              "dataType": 1,
+              "rawData": "BAIBPA=="
+            },
+            "type": "TENSOR"
+          }
+        ]
+      },
+      {
+        "input": [
+          "/Reshape_output_0",
+          "/Constant_1_output_0"
+        ],
+        "output": [
+          "/Div_output_0"
+        ],
+        "name": "/Div",
+        "opType": "Div"
+      },
+      {
+        "input": [
+          "/Div_output_0"
         ],
         "output": [
           "/Round_output_0"
