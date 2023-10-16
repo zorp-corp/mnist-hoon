@@ -1,4 +1,4 @@
-/+  *lagoon
+/+  *nu-lagoon
 |%
 +$  weight-ir  [name=@t dims=(list @t) data-type=@ raw=@t]
 ::
