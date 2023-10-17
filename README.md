@@ -32,4 +32,4 @@ is a space saving measure for when the operation is done in hardware, which we a
 ##  ONNX
 The demo runs by loading weights in the ONNX format. For ease of use, these weights were converted to JSON using the [onnx2json](https://github.com/PINTO0309/onnx2json) tool. We currently support a handful of operations necessary for running this quantized mnist demo. The operations supported are: Gemm, Mul, Div, Round, Clip, Relu, Reshape, Constant.
 
-When you export a torch model to ONNX, it requires you to assign a label to each input and output tensor in your network. For `gen/onnx.hoon`, you must pass in a `(map @t tensor)` where the key is the input name. The `run-onnx` gate also outputs a `(map @t tensor)`, your output tensor(s) and under the key(s) you assigned them during the export step.
+When you export a torch model to ONNX, it requires you to assign a label to each input and output tensor in your network. For `gen/onnx.hoon`, you must pass in a `(map @t tensor)` where the key is the input name. The `run-onnx` gate also outputs a `(map @t tensor)` where your output tensor(s) are under the key(s) you assigned them during the export step.
