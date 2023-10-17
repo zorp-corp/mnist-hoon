@@ -30,6 +30,8 @@ for convenience. In real int8 inference, all of the array elements would be int8
 is a space saving measure for when the operation is done in hardware, which we are not doing currently.
 
 ##  ONNX
-The demo runs by loading weights in the ONNX format. For ease of use, these weights were converted to JSON using the [onnx2json](https://github.com/PINTO0309/onnx2json) tool. We currently support a handful of operations necessary for running this quantized mnist demo. The operations supported are: Gemm, Mul, Div, Round, Clip, Relu, Reshape, Constant.
+The demo runs by loading weights in the [ONNX (Open Neural Network Exchange)](https://onnx.ai/) format. ONNX is an open format for representing machine learning models. It has support for machine learning and deep learning building blocks. Many popular deep learning frameworks such as PyTorch and Tensorflow have ONNX support for exporting and importing models.
+
+For ease of use, these weights were converted to JSON using the [onnx2json](https://github.com/PINTO0309/onnx2json) tool. We currently support a handful of operations necessary for running this quantized mnist demo. The operations supported are: Gemm, Mul, Div, Round, Clip, Relu, Reshape, Constant.
 
 When you export a torch model to ONNX, it requires you to assign a label to each input and output tensor in your network. For `gen/onnx.hoon`, you must pass in a `(map @t tensor)` where the key is the input name. The `run-onnx` gate also outputs a `(map @t tensor)` where your output tensor(s) are under the key(s) you assigned them during the export step.
