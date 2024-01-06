@@ -5,7 +5,6 @@ Run a pretrained MNIST model from your urbit ship using ONNX weights!
 ![alt-text](https://github.com/zorp-corp/mnist-hoon/blob/master/pred.jpeg)
 
 ## Instructions
-NOTE: While writing this library, we discovered a bug in `+de:base64:mimes:html`, to run this demo you must apply the fix in this PR [here](https://github.com/urbit/urbit/pull/6826).
 
 1. Copy the contents of `desk` into a desk named `%mnist` on a fakezod.
 2. This repo comes preloaded with 9 MNIST images taken from the test set. The filename of each image serves as its label. 
@@ -13,6 +12,7 @@ To run inference on the first image: `0.mnist` do:
 
 ```hoon
 +mnist!run-onnx /=mnist=/data/net-quant/json /=mnist=/data/0/mnist
++mnist!run-onnx /=mnist=/data/net-float/json /=mnist=/data/0/mnist
 ```
 
 Where `/=mnist=/data/net-quant/json` is the path of the ONNX weight file. The generator should output `[%pred 0]`, making its prediction for the first image the number `0`.

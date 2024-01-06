@@ -1,4 +1,4 @@
-/+  *nu-lagoon
+/-  *lagoon
 |%
 +$  weight-ir  [name=@t dims=(list @t) data-type=@ raw=@t]
 ::
@@ -25,7 +25,7 @@
 +$  op-generic  [input=(list @t) output=(list @t) name=@t optype=@t]
 ::
 +$  tensor
-  $%  [%array =ray:la]
+  $%  [%array =ray]
       [%scalar kind=term val=@]
       [%shape shape=(list @s)]
   ==
