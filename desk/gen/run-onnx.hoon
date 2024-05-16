@@ -1,5 +1,6 @@
-/+  ox=onnx
-/+  *nu-lagoon
+/-  *lagoon
+/+  ox=onnx,
+    *lagoon
 :-  %say
 |=  [[now=@da eny=@uv [=ship =desk =case]] [onnx-path=path img-path=path ~] ~]
 :-  %noun
@@ -14,11 +15,11 @@
 ::
 ++  load-image
   |=  =path
-  ^-  ray:la
+  ^-  ray
   =/  img  .^(@ %cx path)
   =/  missing  (sub 784 (met 5 img))
   %-  spac:la
-  :-  [~[784 1] 5 %float ~]
+  :-  [~[1 784] 5 %real ~]
   ::
   ::  lsh to recover zeros lost by flop-rep
   %+  lsh

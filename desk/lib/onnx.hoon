@@ -1,24 +1,26 @@
-/-  *onnx
-/+  *nu-lagoon, nn=onnx-nn
+/-  *onnx, *lagoon
+/+  *lagoon,
+    nn=onnx-nn,
+    *twoc
 |%
 ++  type-map
 |=  data-type=@
-^-  [=kind:la bloq=@]
+^-  [=kind bloq=@]
 ?:  =(1 data-type)
-  [%float 5]
+  [%real 5]
 ?:  =(6 data-type)
-  [%signed 5]
+  [%int2 5]
 ?:  =(7 data-type)
-  [%signed 6]
+  [%int2 6]
 ?:  =(12 data-type)
-  [%unsigned 5]
+  [%uint 5]
 ?:  =(13 data-type)
-  [%unsigned 6]
+  [%uint 6]
 !!
 ::
 ++  raw-to-tensor
 |=  [data-type=@ shape=(list @t) raw=@t]
-^-  ray:la
+^-  ray
 =/  m  (type-map data-type)
 =/  dat  q:(need (de:base64:mimes:html raw))
 %-  spac:la
@@ -76,6 +78,7 @@
   ::  load inputs
   =.  tensors  (~(uni by tensors) x)
   =|  i=@
+  ~&  >>  ops
   |-
   ?:  =(i (lent ops))
     ^-  (map @t tensor)
@@ -90,9 +93,10 @@
       =/  ins=(list tensor)  (turn input.op.curr |=(n=@t (~(got by tensors) n)))
       =/  out-name=@t  (snag 0 output.op.curr)
       ~&  ins+ins
-      =/  result  (reshape:nn (snag 0 ins) (snag 1 ins))
+      ~&  >>  (snag 1 ins)
+      =/  result  (reshape:nn (snag 0 ins) [%shape (flop ;;((list @s) +:(snag 1 ins)))])
       ?>  ?=(%array -.result)
-      ~>  %slog.1^(to-tank:la ray.result)
+      ~&  (print:la ray.result)
       (~(put by tensors) out-name result)
       ::
         %relu
@@ -170,7 +174,7 @@
       :+  %scalar
         kind.m
       =/  raw  q:(need (de:base64:mimes:html raw.t.attr))
-      ?.  ?=(%signed kind.m)  
+      ?.  ?=(%int2 kind.m)  
         raw
       (~(twoc-to-s twoc bloq.m) raw)
   ::
@@ -178,7 +182,7 @@
     =/  m  (type-map data-type.t.attr)
     :-  %shape
     =/  raws  (rip bloq.m q:(need (de:base64:mimes:html raw.t.attr)))
-    ?.  ?=(%signed kind.m)  
+    ?.  ?=(%int2 kind.m)  
       raws
     %+  turn
       raws

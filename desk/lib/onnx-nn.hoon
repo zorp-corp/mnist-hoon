@@ -1,5 +1,5 @@
 /-  *onnx
-/+  *nu-lagoon
+/+  *lagoon
 !:
 |%
 ++  pro  |:([a=`@s`--1 b=`@s`--1] (pro:si a b))
@@ -26,7 +26,7 @@
   |=  a=tensor
   ^-  tensor
   ?>  ?=(%array -.a)
-  ?>  =(%float kind.meta.ray.a)
+  ?>  =(%real kind.meta.ray.a)
   :-  %array
   %+  el-wise-op:la
     ray.a
@@ -43,9 +43,9 @@
   %+  el-wise-op:la
     ray.m
   |=  a=@
-  ?:  ;;(? ((fun-scalar:la bloq.meta.ray.m kind.meta.ray.m %gth) a val.max))
+  ?:  ;;(? ((fun-scalar:la meta.ray.m %gth) a val.max))
     val.max
-  ?:  ;;(? ((fun-scalar:la bloq.meta.ray.m kind.meta.ray.m %lth) a val.min))
+  ?:  ;;(? ((fun-scalar:la meta.ray.m %lth) a val.min))
     val.min
   a
 ::
@@ -98,6 +98,6 @@
   %+  el-wise-op:la
     a
   |=  x=@
-  ?:(;;(? ((fun-scalar:la bloq.meta.a kind.meta.a %gth) x 0)) x 0)
+  ?:(!=(0 ((fun-scalar:la meta.a %gth) x 0)) x 0)
 ::
 --
