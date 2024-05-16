@@ -5,7 +5,6 @@ Run a pretrained MNIST model from your urbit ship using ONNX weights!
 ![alt-text](https://github.com/zorp-corp/mnist-hoon/blob/master/pred.jpeg)
 
 ## Instructions
-NOTE: While writing this library, we discovered a bug in `+de:base64:mimes:html`, to run this demo you must apply the fix in this PR [here](https://github.com/urbit/urbit/pull/6826).
 
 1. Copy the contents of `desk` into a desk named `%mnist` on a fakezod.
 2. This repo comes preloaded with 9 MNIST images taken from the test set. The filename of each image serves as its label. 
