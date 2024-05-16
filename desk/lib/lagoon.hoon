@@ -759,7 +759,6 @@
     =/  k  0
     =/  shape=(list @)  ~[(snag 0 shape.meta.a) (snag 1 shape.meta.b)]
     =/  prod=ray  =,(meta.a (zeros [^shape bloq kind ~]))
-    ~&  >>>  [meta.a meta.b]
     ::  
     ::  multiplication conditions
     ?>

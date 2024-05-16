@@ -78,7 +78,6 @@
   ::  load inputs
   =.  tensors  (~(uni by tensors) x)
   =|  i=@
-  ~&  >>  ops
   |-
   ?:  =(i (lent ops))
     ^-  (map @t tensor)
@@ -93,7 +92,6 @@
       =/  ins=(list tensor)  (turn input.op.curr |=(n=@t (~(got by tensors) n)))
       =/  out-name=@t  (snag 0 output.op.curr)
       ~&  ins+ins
-      ~&  >>  (snag 1 ins)
       =/  result  (reshape:nn (snag 0 ins) [%shape (flop ;;((list @s) +:(snag 1 ins)))])
       ?>  ?=(%array -.result)
       ~&  (print:la ray.result)
