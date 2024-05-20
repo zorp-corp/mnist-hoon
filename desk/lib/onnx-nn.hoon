@@ -39,13 +39,14 @@
   ?>  ?=(%array -.m)
   ?>  ?=(%scalar -.min)
   ?>  ?=(%scalar -.max)
+  :: =;  val  ~&  >>  val  val
   :-  %array
   %+  el-wise-op:la
     ray.m
   |=  a=@
-  ?:  ;;(? ((fun-scalar:la meta.ray.m %gth) a val.max))
+  ?:  !=(0 ((fun-scalar:la meta.ray.m %gth) a val.max))
     val.max
-  ?:  ;;(? ((fun-scalar:la meta.ray.m %lth) a val.min))
+  ?:  !=(0 ((fun-scalar:la meta.ray.m %lth) a val.min))
     val.min
   a
 ::
@@ -83,6 +84,7 @@
   ?>  ?=(%array -.w)
   ?>  ?=(%array -.b)
   ?>  ?=(%array -.x)
+  =;  val  ~&  >>  val  val
   [%array (add:la (mmul:la ray.w ray.x) ray.b)]
 ::
 ::
@@ -94,6 +96,7 @@
   ^-  tensor
   ?>  ?=(%array -.x)
   =/  a  ray.x
+  =;  val  ~&  >>  val  val
   :-  %array
   %+  el-wise-op:la
     a

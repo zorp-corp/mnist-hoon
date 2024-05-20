@@ -25,9 +25,7 @@
 =/  dat  q:(need (de:base64:mimes:html raw))
 %-  spac:la
 :-  [(parse-shape shape) bloq.m kind.m ~]
-::
-::  flop since lagoon is big endian
-(rep 5 (flop (rip 5 dat)))
+dat
 ::
 ++  preprocess-onnx
   |=  onnx=json
@@ -94,7 +92,6 @@
       ~&  ins+ins
       =/  result  (reshape:nn (snag 0 ins) [%shape (flop ;;((list @s) +:(snag 1 ins)))])
       ?>  ?=(%array -.result)
-      ~&  (print:la ray.result)
       (~(put by tensors) out-name result)
       ::
         %relu
