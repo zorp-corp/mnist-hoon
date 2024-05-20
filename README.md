@@ -8,13 +8,15 @@ Run a pretrained MNIST model from your urbit ship using ONNX weights!
 
 1. Copy the contents of `desk` into a desk named `%mnist` on a fakezod.
 2. This repo comes preloaded with 9 MNIST images taken from the test set. The filename of each image serves as its label. 
-To run inference on the first image: `0.mnist` do:
+To run inference using the quantized neural network on the first image: `0.mnist` do:
 
 ```hoon
-+mnist!run-onnx /=mnist=/data/net-quant/json /=mnist=/data/0/mnist
++mnist!run-onnx /=mnist=/data/net-quant/json /=mnist=/data/1/mnist
 ```
 
-Where `/=mnist=/data/net-quant/json` is the path of the ONNX weight file. The generator should output `[%pred 0]`, making its prediction for the first image the number `0`.
+Where `/=mnist=/data/net-quant/json` is the path of the ONNX weight file. The generator should output `[%pred 1]`, making its prediction for the first image the number `1`.
+
+If you to want to run inference using floating point weights, change the weight file to `/=mnist=/data/net-float/json`.
 
 ## Replication
 The model used was a two-layer fully connected neural network of dimensions (784, 500) and (500, 10). A RELU activation 
