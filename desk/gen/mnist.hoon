@@ -21,25 +21,25 @@
   =/  w1
   %-  spac:la
   :-  [~[500 784] 5 %float]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-weight/mnist)
+  .^(@ux %cx /(scot %p ship)/(scot %tas desk)/(scot %da now)/data/fc1-weight/mnist)
   =/  w2 
   %-  spac:la
   :-  [~[10 500] 5 %float]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-weight/mnist)
+  .^(@ux %cx /(scot %p ship)/(scot %tas desk)/(scot %da now)/data/fc2-weight/mnist)
   =/  b1 
   %-  spac:la
   :-  [~[500 1] 5 %float]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-bias/mnist)
+  .^(@ux %cx /(scot %p ship)/(scot %tas desk)/(scot %da now)/data/fc1-bias/mnist)
   =/  b2
   %-  spac:la
   :-  [~[10 1] 5 %float]
-  .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc2-bias/mnist)
+  .^(@ux %cx /(scot %p ship)/(scot %tas desk)/(scot %da now)/data/fc2-bias/mnist)
   ~[(linear:nn w1 b1) relu:nn (linear:nn w2 b2)]
 :: 
 ++  load-image
   |=  i=@
   ^-  ray:la
-  =/  dat  .^(@ %cx /(scot %p ship)/tensor/(scot %da now)/data/(scot %ud i)/mnist)
+  =/  dat  .^(@ %cx /(scot %p ship)/(scot %tas desk)/(scot %da now)/data/(scot %ud i)/mnist)
   %-  spac:la
   :-  [~[784 1] 5 %float]
   %+  rep  5 
@@ -49,6 +49,6 @@
   (sun:rs e)
 ++  load-labels
   ^-  (list @)
-  =/  dat  .^(@ %cx /(scot %p ship)/tensor/(scot %da now)/data/labels/mnist)
+  =/  dat  .^(@ %cx /(scot %p ship)/(scot %tas desk)/(scot %da now)/data/mnist)
   (rip 3 dat)
 --
