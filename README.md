@@ -11,7 +11,6 @@ Run a pretrained MNIST model from your urbit ship using ONNX weights!
 To run inference on the first image: `0.mnist` do:
 
 ```hoon
-+run-onnx /===/data/net-quant/json /===/data/0/mnist
 +mnist!run-onnx /=mnist=/data/net-quant/json /=mnist=/data/0/mnist
 ```
 

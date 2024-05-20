@@ -11,7 +11,6 @@
 =/  output-map=(map @t tensor:ox)  ((run-onnx:ox (preprocess-onnx:ox onnx-file)) x)
 =/  out  (~(got by output-map) 'output')
 ?>  ?=(%array -.out)
-~&  >>>  ray.out
 ~&  >  prediction+(argmax:la ray.out)
 ~
 ::

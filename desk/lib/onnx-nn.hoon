@@ -39,7 +39,6 @@
   ?>  ?=(%array -.m)
   ?>  ?=(%scalar -.min)
   ?>  ?=(%scalar -.max)
-  :: =;  val  ~&  >>  val  val
   :-  %array
   %+  el-wise-op:la
     ray.m
@@ -84,7 +83,6 @@
   ?>  ?=(%array -.w)
   ?>  ?=(%array -.b)
   ?>  ?=(%array -.x)
-  =;  val  ~&  >>  val  val
   [%array (add:la (mmul:la ray.w ray.x) ray.b)]
 ::
 ::
@@ -96,7 +94,6 @@
   ^-  tensor
   ?>  ?=(%array -.x)
   =/  a  ray.x
-  =;  val  ~&  >>  val  val
   :-  %array
   %+  el-wise-op:la
     a

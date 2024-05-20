@@ -19,7 +19,6 @@
 ::
 ++  model 
   =/  w1
-  :: %-  transpose:la
   %-  spac:la
   :-  [~[500 784] 5 %float]
   .^(@ux %cx /(scot %p ship)/tensor/(scot %da now)/data/fc1-weight/mnist)
